@@ -57,9 +57,9 @@ sh demo.sh ingress
 ### Step 5 - Deploy Terraform Cloud Agents
 This step requires that you already have a Terraform Cloud Agent token exported as an environment variable. This guide won't go into the detail of configuring Terraform Cloud or Agents, however, here is a link to the official documentation on [setting up Agents](https://developer.hashicorp.com/terraform/cloud-docs/agents/agents).
 
-In this example, we deploy a Terraform Cloud agent where the image has been customized to include a Post-apply hook that deletes the Pod once it's finished the Terraform Apply. 
+In this example, we deploy a Terraform Cloud agent where the image has been customized to include a Post-apply hook that deletes the Pod once it's finished the Terraform Apply.
 
-The reason why we delete the Pod is to invalidate the Kubernetes MountedServiceAccount token that the Pod had access to. This means that if anyone exfiltrated the token from the MountedServiceAccount, it would only be valid for a short amount of time.
+The reason why we delete the Pod is to invalidate the Kubernetes MountedServiceAccount token that the Pod had access to. This means that if anyone exfiltrated the token from the MountedServiceAccount, it would only be valid for a short amount of time.  [Still need more detail?](./why-do-we-delete-the-tfc-agent.md)
 
 ```bash
 export TFC_AGENT_TOKEN=<insert-your-agent-token-here>
