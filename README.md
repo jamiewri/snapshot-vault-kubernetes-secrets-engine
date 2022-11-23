@@ -165,7 +165,7 @@ Browsing to your HashiBank ingress IP address will show the following webpage.
 ![Screenshot](images/hashibank.png)
 
 ### Further reading
-Still now sure why why we delete the tfc-agent pod after its executure our Terraform Cloud run. A more detailed explanation is available [here](why-do-we-delete-the-tfc-agent.md).
+Still not sure why we delete the tfc-agent pod after its executed our Terraform Cloud run? A more detailed explanation is available [here](why-do-we-delete-the-tfc-agent.md).
  
 
 ## Build the Terraform Cloud Agent with the Post-Apply hook
