@@ -5,7 +5,7 @@ metadata:
   namespace: tfc
 spec:
   replicas: 1
-  revisionHistoryLimit: 3
+  revisionHistoryLimit: 1
   selector:
     matchLabels:
       app: tfc-agent
@@ -14,11 +14,9 @@ spec:
       labels:
         app: tfc-agent
     spec:
-      automountServiceAccountToken: true
       containers:
-      - name: tfc-agent
-        image: jamiewri/tfc-agent-kubernetes:1.4
-        imagePullPolicy: Always
+      - image: jamiewri/tfc-agent-kubernetes:1.4
+        name: tfc-agent
         env:
         - name: TFC_AGENT_TOKEN
           valueFrom:
@@ -32,6 +30,19 @@ spec:
           value: INFO
         - name: TFC_AGENT_SINGLE
           value: "true"
+        volumeMounts:
+        - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+          name: token
       restartPolicy: Always
-      serviceAccount: tfc-agent
       serviceAccountName: tfc-agent
+      volumes:
+      - name: token
+        projected:
+          sources:
+          - serviceAccountToken:
+              path: token
+              expirationSeconds: 600
+          - serviceAccountToken:
+              path: vault-token
+              expirationSeconds: 600
+              audience: vault
