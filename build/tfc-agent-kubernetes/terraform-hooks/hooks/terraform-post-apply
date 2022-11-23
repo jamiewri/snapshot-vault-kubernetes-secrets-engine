@@ -1,0 +1,15 @@
+#!/bin/bash
+
+echo "Running inside ${HOSTNAME}"
+
+# If the HOSTNAME is not set then something is wrong. exiting safely...
+if [ -z "$HOSTNAME" ]; then
+  echo "No HOSTNAME found. Exiting safely..."
+  exit 0
+fi
+
+echo "Deleting pod ${HOSTNAME} - (myself)"
+curl  \
+  -H "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" \
+  -X DELETE -k \
+  https://kubernetes.default.svc/api/v1/namespaces/tfc/pods/${HOSTNAME} &> /dev/null

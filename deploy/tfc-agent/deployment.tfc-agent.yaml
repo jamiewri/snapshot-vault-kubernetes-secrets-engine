@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tfc-agent
+  namespace: tfc
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: tfc-agent
+  template:
+    metadata:
+      labels:
+        app: tfc-agent
+    spec:
+      automountServiceAccountToken: true
+      containers:
+      - name: tfc-agent
+        image: jamiewri/tfc-agent-kubernetes:1.4
+        imagePullPolicy: Always
+        env:
+        - name: TFC_AGENT_TOKEN
+          valueFrom:
+            secretKeyRef:
+              key: tfc-token
+              name: tfc-token
+              optional: false
+        - name: TFC_AGENT_NAME
+          value: tfc-agent-kubernetes
+        - name: TFC_AGENT_LOG_LEVEL
+          value: INFO
+        - name: TFC_AGENT_SINGLE
+          value: "true"
+      restartPolicy: Always
+      serviceAccount: tfc-agent
+      serviceAccountName: tfc-agent
