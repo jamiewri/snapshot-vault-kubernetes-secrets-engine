@@ -6,7 +6,7 @@ provider "vault" {
 
     parameters = {
       role = "tfc"
-      jwt  = file("/var/run/secrets/kubernetes.io/serviceaccount/token")
+      jwt  = file("/var/run/secrets/kubernetes.io/serviceaccount/vault-token")
     }
   }
 }
