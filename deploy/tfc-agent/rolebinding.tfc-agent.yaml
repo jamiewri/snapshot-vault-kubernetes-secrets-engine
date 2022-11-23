@@ -1,0 +1,14 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: tfc-agent
+  namespace: tfc
+subjects:
+- kind: ServiceAccount
+  name: tfc-agent
+  apiGroup: ""
+roleRef:
+  kind: Role
+  name: tfc-agent
+  apiGroup: rbac.authorization.k8s.io
