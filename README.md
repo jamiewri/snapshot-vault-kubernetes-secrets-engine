@@ -1,7 +1,7 @@
 # snapshot-vault-kubernetes-secrets-engine
 ![Screenshot](images/diagram.png)
 
-This repo deloys a single Vault node, running in `-dev` mode, onto GKE. 
+This repo deploys a single Vault node, running in `-dev` mode, onto GKE. 
 
 Then it deploys an example web application via Terraform Cloud. The ServiceAccount used by the Terraform Cloud Agent to deploy the web application is generated on-demand via [Vault's Kubernetes Secrets Engine](https://developer.hashicorp.com/vault/docs/secrets/kubernetes).
 
@@ -81,11 +81,11 @@ sh demo.sh ingress
 ```
 
 ### Step 5 - Deploy Terraform Cloud Agents
-This step requires that you already have a Terraform Cloud Agent token exported as an environment variable. This guide wont go into the detail of configuring Terraform Cloud or Agents, however, here is a link to the offical documentation on [setting up Agents](https://developer.hashicorp.com/terraform/cloud-docs/agents/agents).
+This step requires that you already have a Terraform Cloud Agent token exported as an environment variable. This guide won't go into the detail of configuring Terraform Cloud or Agents, however, here is a link to the official documentation on [setting up Agents](https://developer.hashicorp.com/terraform/cloud-docs/agents/agents).
 
-In this example we deploy a Terraform Cloud agent where the image has been customized to include a Post-apply hook that deletes the Pod once its finished the Terraform Apply. 
+In this example, we deploy a Terraform Cloud agent where the image has been customized to include a Post-apply hook that deletes the Pod once it's finished the Terraform Apply. 
 
-The reason why we delete the Pod is because that will then invalidate the Kubernetes MountedServiceAccount token that the Pod had access to. This means that if anyone exfiltrated the token from the MountedServiceAccount, it would only be valid for a short amount of time.
+The reason why we delete the Pod is to invalidate the Kubernetes MountedServiceAccount token that the Pod had access to. This means that if anyone exfiltrated the token from the MountedServiceAccount, it would only be valid for a short amount of time.
 
 ```bash
 export TFC_AGENT_TOKEN=<insert-your-agent-token-here>
@@ -130,7 +130,7 @@ EOF
 ```
 
 ##### Troubleshooting Kubernetes Authentication
-To confirm that the Kubernetes authentication method is working, run the following commands from inside the Terraform Cloud Agent. A sucessful configuration will result in a Vault token being issued.
+To confirm that the Kubernetes authentication method is working, run the following commands from inside the Terraform Cloud Agent. A successful configuration will result in a Vault token being issued.
 ```bash
 export SA_TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
 export VAULT_TOKEN=$(curl \
@@ -180,7 +180,7 @@ Create a Terraform Cloud workspace with the following config.
 
 ![Screenshot](images/tfc.png)
 
-Now you should have deploy HashiBank into the app namespace.
+Now you should have deployed the HashiBank app into the app namespace.
 
 ```bash
 kubectl get pods -n app
@@ -206,7 +206,7 @@ vault lease revoke \
   -prefix kubernetes
 ```
 
-Revoke all lease for role
+Revoke all leases for role
 ```bash
 vault lease revoke \
   -prefix kubernetes/creds/cicd-write
